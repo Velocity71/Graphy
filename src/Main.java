@@ -1,4 +1,4 @@
-package Graphy;
+package src;
 
 import java.io.IOException;
 import java.util.logging.FileHandler;
@@ -15,6 +15,10 @@ public class Main {
     public static void main(String[] args) throws IOException {
         instantiateLogHandler();
         logger.info("Starting Graphy");
+
+        new OutputFrame();
+
+        logHandler.close();
     }
 
     // instantiate the log file handler
@@ -29,5 +33,7 @@ public class Main {
 		}
 	}
 
-	public static Logger getLogger() {return logger;}
+    public static Logger getLogger() {
+		return logger;
+	}
 }
