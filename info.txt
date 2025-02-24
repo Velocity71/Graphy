@@ -1,0 +1,13 @@
+Folder structure:
+src: source files
+    src/main/java: java files
+    src/main/resources: resource files and config files.
+build: built files
+    build/classes: binary java files
+    build/libs: built jar files
+logs: app logs
+doc: Javadoc files
+.gitignore: git ignore files
+README.md: Project description
+LICENSE: license info
+info.txt (this file): information on the project.
