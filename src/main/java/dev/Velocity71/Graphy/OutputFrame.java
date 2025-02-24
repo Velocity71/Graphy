@@ -1,4 +1,4 @@
-package src;
+package dev.Velocity71.Graphy;
 
 import java.awt.Frame;
 
