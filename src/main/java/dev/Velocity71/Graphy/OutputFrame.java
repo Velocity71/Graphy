@@ -10,7 +10,6 @@ import java.awt.event.WindowEvent;
  * Note that OutputFrame extends Frame.
  *
  * @author Velocity71
- * @version 0.1
  * @since 0.1
  */
 public class OutputFrame extends Frame {
@@ -22,18 +21,16 @@ public class OutputFrame extends Frame {
         super("Graphy Output"); // Set the window title.
 
         addWindowListener(new WindowAdapter() { // Delete the frame when intended by the user.
-                @Override
-                public void windowClosing(final WindowEvent e) {
-                    dispose(); // Dispose of the frame
-                    Main.getAppLogger().info("Closed a Graphy Output Frame"); // Log successful frame closure.
-                    System.exit(0); // MOVE PROGRAM END TO CONTROL FRAME WHEN CREATED
-                }
+            @Override
+            public void windowClosing(final WindowEvent e) {
+                dispose(); // Dispose of the frame.
+                Main.getLogger().info("Closed a Graphy Output Frame."); // Log successful frame closure.
             }
-        );
+        });
 
         setSize(800, 600); // Set the window size (x,y).
         setLocationRelativeTo(null); // Center the window on the screen.
         setVisible(true); // Window is visible on initialization.
-        Main.getAppLogger().info("Instantiated a Graphy Output Frame"); // Log successful frame creation.
+        Main.getLogger().info("Instantiated a Graphy Output Frame."); // Log successful frame creation.
     }
 }

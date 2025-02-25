@@ -15,31 +15,20 @@ import java.util.logging.SimpleFormatter;
  *  - Creates the output frame.
  *
  * @author Velocity71
- * @version 0.1
+ * @version 0.3
  * @since 0.1
 */
-
 public class Main {
 
     /**
-     * App logger for the Graphy application.
+     * Logger for the Graphy application.
     */
-    private static final Logger appLogger = Logger.getLogger(Main.class.getName());
+    private static final Logger logger = Logger.getLogger(Main.class.getName());
 
     /**
-     * Error logger for the Graphy application.
+     * File handler for writing logs to logs/Graphy.log
     */
-    private static final Logger errLogger = Logger.getLogger(Main.class.getName());
-
-    /**
-     * File handler for writing app logs to a file
-    */
-    private static FileHandler appLogHandler;
-
-    /**
-     * File handler for writing error logs to a file
-    */
-    private static FileHandler errLogHandler;
+    private static FileHandler logHandler;
 
     /**
      * Configuration properties loaded from the config.properties file.
@@ -55,46 +44,12 @@ public class Main {
     public static void main(final String[] args) throws IOException {
         loadConfig(); // Load the config file first.
 
-        instantiateLogHandlers(); // instantiates the logger's handler
-        appLogger.info("Starting Graphy");
+        instantiateLogHandler(); // instantiates the logger's handler
+        logger.info("Starting Graphy.");
 
-        // Create a new output frame.
-        new OutputFrame();
-
-        // Close the log handlers to flush and release resources.
-        appLogHandler.close();
-        errLogHandler.close();
-
-        appLogger.info("Exiting Graphy"); // Indicate a clean exit.
+        // Create a new control frame.
+        new ControlFrame();
     }
-
-    /**
-	 * Getter method for the configuration property by key.
-	 *
-	 * @param key The key of the property to retrieve.
-	 * @return The value of the property associated with the key, or null if the key is not found.
-	*/
-	public static String getConfigProperty(final String key) {
-	   return config.getProperty(key);
-	}
-
-    /**
-	 * Getter method for the app Logger. Allows all other classes to log using this logger.
-	 *
-	 * @return Logger
-	*/
-	public static Logger getAppLogger() {
-		return appLogger;
-	}
-
-	/**
-	 * Getter method for the error Logger. Allows all other classes to log using this logger.
-	 *
-	 * @return Logger
-	*/
-	public static Logger getErrLogger() {
-		return errLogger;
-	}
 
 	/**
      * Loads the configuration settings from the "config.properties" resource.
@@ -112,40 +67,60 @@ public class Main {
             config.load(input);
         } catch (final IOException e) {
             // Wrap original exception for better context in stack trace.
-            throw new IOException("Error loading config.properties", e);
+            throw new IOException("Error loading config.properties.", e);
         }
     }
 
 	/**
-     * Initialize the log-specific file handlers, their file paths, formatters, and levels.
+     * Initialize the log-specific file handler, it's file path, formatter, and level.
      *
-     * @throw's IOException if there is an error creating or configuring the handlers.
+     * @throws IOException If there is an error creating or configuring the handler.
     */
-	private static void instantiateLogHandlers() throws IOException {
+	private static void instantiateLogHandler() throws IOException {
 	   try {
-			final String appLogFilePath = config.getProperty("app.log.file");
-			if (appLogFilePath == null || appLogFilePath.trim().isEmpty()) {
-			    throw new IOException("app.log.file property not found or is empty in config.properties.");
+			final String logFilePath = config.getProperty("log.file");
+			if (logFilePath == null || logFilePath.trim().isEmpty()) {
+			    throw new IOException("log.file property not found or is empty in config.properties.");
 			}
 
-			final String errLogFilePath = config.getProperty("err.log.file");
-			if (appLogFilePath == null || errLogFilePath.trim().isEmpty()) {
-			    throw new IOException("err.log.file property not found or is empty in config.properties.");
-			}
-
-			appLogHandler = new FileHandler(appLogFilePath, true); // Append to the app log file.
-			appLogHandler.setFormatter(new SimpleFormatter()); // Use a simple text format.
-			appLogger.addHandler(appLogHandler);
-			appLogger.setLevel(Level.INFO); // Minimum app logging level is INFO
-
-			errLogHandler = new FileHandler(errLogFilePath, true); // Append to the error log file.
-			errLogHandler.setFormatter(new SimpleFormatter()); // Use a simple text format.
-			errLogger.addHandler(errLogHandler);
-			errLogger.setLevel(Level.WARNING); // Minimum error logging level is WARNING
+			logHandler = new FileHandler(logFilePath, true); // Append to the log file.
+			logHandler.setFormatter(new SimpleFormatter()); // Use a simple text format.
+			logger.addHandler(logHandler);
+			logger.setLevel(Level.INFO); // Minimum logging level is INFO
 
 		} catch (final IOException e) {
 		    // provide a more specific error message for debuging.
-			throw new IOException("Failed to instantiate log file handlers", e);
+			throw new IOException("Failed to instantiate log file handler.", e);
 		}
+	}
+
+	/**
+	 * Exit method for the Graphy Application. Closes the log handler and exits the application.
+	*/
+	public static void exitGraphy() {
+	    logger.info("Exiting Graphy."); // Indicate a clean exit.
+        // Close the log handler to flush and release resources.
+        logHandler.close();
+
+        System.exit(0);
+	}
+
+	/**
+	 * Getter method for the configuration property by key.
+	 *
+	 * @param key The key of the property to retrieve.
+	 * @return The value of the property associated with the key, or null if the key is not found.
+	 */
+	public static String getConfigProperty(final String key) {
+		return config.getProperty(key);
+	}
+
+    /**
+     * Getter method for the logger. Allows all other classes to log using this logger.
+	 *
+	 * @return Logger
+	 */
+	public static Logger getLogger() {
+		return logger;
 	}
 }
