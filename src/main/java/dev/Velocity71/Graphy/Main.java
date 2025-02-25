@@ -15,10 +15,10 @@ import java.util.logging.SimpleFormatter;
  *  - Creates the output frame.
  *
  * @author Velocity71
- * @version 0.3
+ * @version 0.4
  * @since 0.1
 */
-public class Main {
+public abstract class Main {
 
     /**
      * Logger for the Graphy application.
@@ -47,8 +47,8 @@ public class Main {
         instantiateLogHandler(); // instantiates the logger's handler
         logger.info("Starting Graphy.");
 
-        // Create a new control frame.
-        new ControlFrame();
+        // Create and visualize the control frame.
+        ControlFrame.getInstance().setVisible(true);
     }
 
 	/**
@@ -106,7 +106,7 @@ public class Main {
 	}
 
 	/**
-	 * Getter method for the configuration property by key.
+	 * Returns a config value associated with a given key.
 	 *
 	 * @param key The key of the property to retrieve.
 	 * @return The value of the property associated with the key, or null if the key is not found.

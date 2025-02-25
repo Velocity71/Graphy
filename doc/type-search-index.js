@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"dev.Velocity71.Graphy","l":"Main"},{"p":"dev.Velocity71.Graphy","l":"OutputFrame"}];updateSearchResults();

@@ -5,9 +5,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 /**
- * The output frame for Graphy.
+ * A singleton class that extends java.awt.Frame.
  * - Displays the function inputted by the user in a graph form.
- * Note that OutputFrame extends Frame.
  *
  * @author Velocity71
  * @since 0.1
@@ -15,9 +14,14 @@ import java.awt.event.WindowEvent;
 public class OutputFrame extends Frame {
 
     /**
+     * The singleton instance of OutputFrame
+     */
+    private static final OutputFrame INSTANCE = new OutputFrame();
+
+    /**
      * Constructor for OutputFrame.
      */
-    public OutputFrame() {
+    private OutputFrame() {
         super("Graphy Output"); // Set the window title.
 
         addWindowListener(new WindowAdapter() { // Delete the frame when intended by the user.
@@ -30,7 +34,16 @@ public class OutputFrame extends Frame {
 
         setSize(800, 600); // Set the window size (x,y).
         setLocationRelativeTo(null); // Center the window on the screen.
-        setVisible(true); // Window is visible on initialization.
+        setVisible(true); // Window is visible on initialisation.
         Main.getLogger().info("Instantiated a Graphy Output Frame."); // Log successful frame creation.
+    }
+
+    /**
+     * Getter method for the singleton instance of OutputFrame
+     *
+     * @return The singleton instance of OutputFrame.
+     */
+    public static OutputFrame getInstance() {
+        return INSTANCE;
     }
 }
