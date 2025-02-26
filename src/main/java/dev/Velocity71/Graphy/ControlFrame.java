@@ -1,6 +1,7 @@
 package dev.velocity71.Graphy;
 
 import java.awt.Button;
+import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -24,8 +25,10 @@ public class ControlFrame extends Frame {
      */
     private ControlFrame() {
         super("Graphy Control"); // Set the window title.
+        setLayout(new FlowLayout());
 
-        addWindowListener(new WindowAdapter() { // Delete the frame when intended by the user.
+        // Delete the frame when intended by the user.
+        addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 dispose(); // Dispose of the frame.
@@ -37,6 +40,14 @@ public class ControlFrame extends Frame {
         setSize(400, 400); // Set the window size (x,y).
         setLocationRelativeTo(null); // Center the window on the screen.
         Main.getLogger().info("Instantiated a Graphy Control Frame."); // Log successful frame creation.
+
+        addComponents();
+    }
+
+    private void addComponents() {
+        Button graphButton = new Button("Graph");
+        graphButton.addActionListener(e -> OutputFrame.getInstance().setVisible(true));
+        add(graphButton);
     }
 
     /**

@@ -24,7 +24,8 @@ public class OutputFrame extends Frame {
     private OutputFrame() {
         super("Graphy Output"); // Set the window title.
 
-        addWindowListener(new WindowAdapter() { // Delete the frame when intended by the user.
+        // Delete the frame when intended by the user.
+        addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(final WindowEvent e) {
                 dispose(); // Dispose of the frame.
