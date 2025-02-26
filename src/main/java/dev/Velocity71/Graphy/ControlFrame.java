@@ -3,8 +3,17 @@ package dev.velocity71.Graphy;
 import java.awt.Button;
 import java.awt.FlowLayout;
 import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.TextField;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.FocusEvent;
+import java.awt.Label;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import java.awt.Dialog;
 
 /**
  * A singleton class that extends java.awt.Frame.
@@ -45,8 +54,46 @@ public class ControlFrame extends Frame {
     }
 
     private void addComponents() {
+        // Text field the user inputs a function to for graphing.
+        TextField graphEntry = new TextField("Enter function here");
+        graphEntry.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) { // On click delete placeholder text.
+                graphEntry.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) { // If user leaves field blank replace placeholder text.
+                if (graphEntry.getText().equals("")) {
+                    graphEntry.setText("Enter function here");
+                }
+            }
+        });
+        add(graphEntry);
+
+        // Button used to submit a provided function to the OutputFrame for graphing.
         Button graphButton = new Button("Graph");
-        graphButton.addActionListener(e -> OutputFrame.getInstance().setVisible(true));
+        graphButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!graphEntry.getText().equals("Enter function here")) {
+                    OutputFrame.getInstance().setVisible(true);
+                } else { // If the user has not entered a function, display a message indicating they must enter a function to graph.
+                    Dialog dialog = new Dialog(getInstance(), "Enter a function to graph.", true);
+                    dialog.setSize(300, 100);
+                    dialog.add(new Label("You must enter a function to graph."));
+                    dialog.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosing(WindowEvent e) {
+                            dialog.dispose();
+                        }
+                    });
+                    dialog.setLocationRelativeTo(getInstance());
+                    dialog.setVisible(true);
+                    Main.getLogger().info("User attempted to graph without entering a function and activated a dialog.");
+                }
+            }
+        });
         add(graphButton);
     }
 

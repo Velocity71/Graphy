@@ -15,7 +15,7 @@ import java.util.logging.SimpleFormatter;
  *  - Creates the output frame.
  *
  * @author Velocity71
- * @version 0.4
+ * @version 0.5
  * @since 0.1
 */
 public abstract class Main {
