@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"dev.velocity71.Graphy"}];updateSearchResults();
