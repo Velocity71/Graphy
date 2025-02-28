@@ -52,7 +52,9 @@ public class ControlFrame extends Frame {
 
         addComponents();
     }
-
+    /**
+     * Creates and adds the components to the ControlFrame.
+     */
     private void addComponents() {
         // Text field the user inputs a function to for graphing.
         TextField graphEntry = new TextField("Enter function here");

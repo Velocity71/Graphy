@@ -22,7 +22,7 @@ public class OutputFrame extends Frame {
      * Constructor for OutputFrame.
      */
     private OutputFrame() {
-        super("Graphy Output"); // Set the window title.
+        setTitle("Graphy Output"); // Set the window title.
 
         // Delete the frame when intended by the user.
         addWindowListener(new WindowAdapter() {
@@ -33,7 +33,8 @@ public class OutputFrame extends Frame {
             }
         });
 
-        setSize(800, 600); // Set the window size (x,y).
+
+        setSize(600, 600); // Set the window size (x,y).
         setLocationRelativeTo(null); // Center the window on the screen.
         setVisible(true); // Window is visible on initialisation.
         Main.getLogger().info("Instantiated a Graphy Output Frame."); // Log successful frame creation.

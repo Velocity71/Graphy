@@ -47,6 +47,9 @@ public abstract class Main {
         instantiateLogHandler(); // instantiates the logger's handler
         logger.info("Starting Graphy.");
 
+        System.setProperty( "apple.awt.application.name", "Graphy" ); // Change the name of the application on MacOS.
+        System.setProperty( "apple.awt.application.appearance", "system" ); // Change appearance (dark/light mode) to system settings.
+
         // Create and visualize the control frame.
         ControlFrame.getInstance().setVisible(true);
     }
