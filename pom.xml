@@ -19,7 +19,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.junit</groupId>
+    	<groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
         <version>5.11.0</version>
         <type>pom</type>
@@ -40,7 +40,27 @@
       <artifactId>junit-jupiter-params</artifactId>
       <scope>test</scope>
     </dependency>
-  </dependencies>
+    <dependency>
+      <groupId>io.opil</groupId>
+      <artifactId>google-java-format</artifactId>
+      <version>1.15.1</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.openjfx</groupId>
+     	<artifactId>javafx-base</artifactId>
+      <version>25-ea+5</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.openjfx</groupId>
+     	<artifactId>javafx-controls</artifactId>
+      <version>25-ea+5</version>
+    </dependency>
+    <dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-graphics</artifactId>
+    <version>25-ea+5</version>
+    </dependency>
+	</dependencies>
 
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
@@ -84,6 +104,51 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.6.1</version>
         </plugin>
+				<plugin>
+      		<!-- Build an executable JAR -->
+      		<groupId>org.apache.maven.plugins</groupId>
+      		<artifactId>maven-jar-plugin</artifactId>
+      		<version>3.1.0</version>
+      		<configuration>
+        		<archive>
+          		<manifest>
+            		<addClasspath>true</addClasspath>
+            		<classpathPrefix>lib/</classpathPrefix>
+            		<mainClass>dev.velocity71.Graphy.Main</mainClass>
+          		</manifest>
+        		</archive>
+      		</configuration>
+    		</plugin>
+      	<plugin>
+      		<groupId>com.cosium.code</groupId>
+      		<artifactId>git-code-format-maven-plugin</artifactId>
+      		<version>${git-code-format-maven-plugin.version}</version>
+      		<executions>
+        		<!-- On commit, format the modified files -->
+        		<execution>
+          		<id>install-formatter-hook</id>
+          		<goals>
+            		<goal>install-hooks</goal>
+          		</goals>
+        		</execution>
+        		<!-- On Maven verify phase, fail if any file
+        		(including unmodified) is badly formatted -->
+        		<execution>
+          		<id>validate-code-format</id>
+          		<goals>
+            		<goal>validate-code-format</goal>
+          		</goals>
+        		</execution>
+      		</executions>
+      		<dependencies>
+        		<!-- Enable https://github.com/google/google-java-format -->
+        		<dependency>
+          		<groupId>com.cosium.code</groupId>
+          		<artifactId>google-java-format</artifactId>
+          		<version>${git-code-format-maven-plugin.version}</version>
+        		</dependency>
+      		</dependencies>
+    		</plugin>
       </plugins>
     </pluginManagement>
   </build>
