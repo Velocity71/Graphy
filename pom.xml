@@ -56,9 +56,14 @@
       <version>25-ea+5</version>
     </dependency>
     <dependency>
-    <groupId>org.openjfx</groupId>
-    <artifactId>javafx-graphics</artifactId>
-    <version>25-ea+5</version>
+    	<groupId>org.openjfx</groupId>
+    	<artifactId>javafx-graphics</artifactId>
+    	<version>25-ea+5</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.openjfx</groupId>
+     	<artifactId>javafx-fxml</artifactId>
+      <version>25-ea+5</version>
     </dependency>
 	</dependencies>
 
