@@ -27,6 +27,7 @@ public class Main extends Application {
      	// Load data for the control scene from the control.FXML file located at src/main/resources/fxml/control.fxm.
         Parent control = FXMLLoader.load(getClass().getClassLoader().getResource(config.getProperty("control.fxml.path")));
 
+
         controlStage.setScene(new Scene(control));
         controlStage.setTitle("Graphy");
         controlStage.show();
