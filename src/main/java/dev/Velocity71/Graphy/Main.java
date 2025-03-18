@@ -19,21 +19,26 @@ public class Main extends Application {
 	private static Properties config = new Properties();
 
     @Override
-    public void start(Stage controlStage) throws Exception {
+    public void start(final Stage controlStage) throws Exception {
 
     	// Must load the config file before anything else.
     	loadConfig();
 
      	// Load data for the control scene from the control.FXML file located at src/main/resources/fxml/control.fxm.
-        Parent control = FXMLLoader.load(getClass().getClassLoader().getResource(config.getProperty("control.fxml.path")));
+      	setupFXML(controlStage);
 
-        controlStage.setScene(new Scene(control));
-        controlStage.setTitle("Graphy");
-        controlStage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         launch(args);
+    }
+
+    // Loads the data from the FXML files
+    private void setupFXML(final Stage controlStage) throws IOException {
+    	final Parent control = FXMLLoader.load(getClass().getClassLoader().getResource(config.getProperty("control.fxml.path")));
+     	controlStage.setScene(new Scene(control));
+      	controlStage.setTitle("Graphy");
+       	controlStage.show();
     }
 
     private static void loadConfig() throws IOException {
