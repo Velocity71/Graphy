@@ -31,6 +31,7 @@ public class Main extends Application {
         controlStage.setScene(new Scene(control));
         controlStage.setTitle("Graphy");
         controlStage.show();
+        System.out.println("Graphy started successfully.");
     }
 
     public static void main(String[] args) {
