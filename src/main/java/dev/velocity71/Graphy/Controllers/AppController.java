@@ -5,10 +5,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-// Controller for the UI elements defined in src/main/resources/fxml/control.fxml, and used in the Control scene.
-public class ControlSceneController {
+// Controller for the UI elements defined in src/main/resources/fxml/app.fxml, and used in the App scene.
+public class AppController {
 
-	// Defining UI elements from the control.fxml file. The '@FXML' annotation tells JavaFX to connect the FXML elements to these Java variables.
+	// Defining UI elements from the app.fxml file. The '@FXML' annotation tells JavaFX to connect the FXML elements to these Java variables.
     @FXML private Button graphButton;
     @FXML private TextField functionInput;
     @FXML private Label printFunction;

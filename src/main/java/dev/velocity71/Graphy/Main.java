@@ -11,7 +11,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 // Entry point for the application.
-// Bootstraps application, sets up the stage, and loads the 'control' scene.
+// Bootstraps application, sets up the stage, and loads the 'app' scene.
 public class Main extends Application {
 
 	// Variable to store the config data loaded from 'src/main/resources/config.properties'. Holds filepaths to '.log' and '.fxml' files used in the program.
@@ -28,14 +28,14 @@ public class Main extends Application {
 
 
     // Override start() method. start() is the main method of a JavaFX applicaton.
-    @Override public void start(Stage controlStage) throws IOException {
+    @Override public void start(Stage appStage) throws IOException {
 
-        // Creates the root node of the scene from 'src/main/resources/fxml/control.fxml', which controls the rest of the applicaton.
-        Parent control = FXMLLoader.load(getClass().getClassLoader().getResource(config.getProperty("control.fxml.path")));
+        // Creates the root node of the scene from 'src/main/resources/fxml/app.fxml', which controls the rest of the applicaton.
+        Parent app = FXMLLoader.load(getClass().getClassLoader().getResource(config.getProperty("app.fxml.path")));
 
-        controlStage.setScene(new Scene(control)); // Creates a scene from the previously loaded 'control' node and sets it as the content of the stage (window)
-        controlStage.setTitle("Graphy");
-        controlStage.show();
+        appStage.setScene(new Scene(app)); // Creates a scene from the previously loaded 'app' node and sets it as the content of the stage (window)
+        appStage.setTitle("Graphy");
+        appStage.show();
     }
 
     // Helper method that loads the data from the 'config.properties' file into the 'config' Properties object.
