@@ -5,16 +5,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+// Controller for the UI elements defined in src/main/resources/fxml/control.fxml, and used in the Control scene.
 public class ControlSceneController {
 
-	// Variables used for the Control Scene, also defined in src/main/resources/fxml/control.fxml.
+	// Defining UI elements from the control.fxml file. The '@FXML' annotation tells JavaFX to connect the FXML elements to these Java variables.
     @FXML private Button graphButton;
     @FXML private TextField functionInput;
     @FXML private Label printFunction;
 
-    // When the 'graphButton' button is clicked, set the text of teh 'printFunction' label to the text inputted into the 'functionInput' textfield.
-    @FXML
-    private void handleGraphButtonClick() {
+    // Event handler for the 'graphButton'. On click it sets the text of the 'printFunction' label to the contents of the 'functionInput' text field.
+    @FXML private void handleGraphButtonClick() {
     	final String functionString = functionInput.getText();
      	printFunction.setText(functionString);
     }
