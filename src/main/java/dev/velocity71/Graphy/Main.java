@@ -22,8 +22,16 @@ public class Main extends Application {
         // Config file must be loaded before anything else is done.
         loadConfig();
 
-        // Entry point for JavaFX
+        // Entry point for JavaFX. Wrapped in try-catch statement that prints full stack trace.
+        try {
         launch(args);
+        } catch (Throwable t) {
+       		for(; t != null; t = t.getCause()) {
+                System.err.println(t);
+                for(StackTraceElement e: t.getStackTrace())
+                    System.err.println("\tat "+e);
+            }
+        }
     }
 
 

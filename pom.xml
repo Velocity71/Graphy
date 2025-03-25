@@ -40,11 +40,13 @@
       <artifactId>junit-jupiter-params</artifactId>
       <scope>test</scope>
     </dependency>
+    <!-- Formatter that follow's Google's Java Style Guide -->
     <dependency>
-      <groupId>io.opil</groupId>
-      <artifactId>google-java-format</artifactId>
-      <version>1.15.1</version>
+        <groupId>com.google.googlejavaformat</groupId>
+        <artifactId>google-java-format</artifactId>
+        <version>1.25.2</version>
     </dependency>
+    <!-- JavaFX dependencies -->
     <dependency>
     	<groupId>org.openjfx</groupId>
      	<artifactId>javafx-base</artifactId>
@@ -123,36 +125,6 @@
           		</manifest>
         		</archive>
       		</configuration>
-    		</plugin>
-      	<plugin>
-      		<groupId>com.cosium.code</groupId>
-      		<artifactId>git-code-format-maven-plugin</artifactId>
-      		<version>${git-code-format-maven-plugin.version}</version>
-      		<executions>
-        		<!-- On commit, format the modified files -->
-        		<execution>
-          		<id>install-formatter-hook</id>
-          		<goals>
-            		<goal>install-hooks</goal>
-          		</goals>
-        		</execution>
-        		<!-- On Maven verify phase, fail if any file
-        		(including unmodified) is badly formatted -->
-        		<execution>
-          		<id>validate-code-format</id>
-          		<goals>
-            		<goal>validate-code-format</goal>
-          		</goals>
-        		</execution>
-      		</executions>
-      		<dependencies>
-        		<!-- Enable https://github.com/google/google-java-format -->
-        		<dependency>
-          		<groupId>com.cosium.code</groupId>
-          		<artifactId>google-java-format</artifactId>
-          		<version>${git-code-format-maven-plugin.version}</version>
-        		</dependency>
-      		</dependencies>
     		</plugin>
       </plugins>
     </pluginManagement>
