@@ -1,41 +1,34 @@
 package dev.velocity71.Graphy;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
-//import java.util.HashMap;
-
-// Controller for the UI elements defined in src/main/resources/fxml/app.fxml, and used in the App scene.
+/**
+ * Controller class for the Graphy application.  Handles user interactions
+ * with the GUI elements defined in the associated FXML file (app.fxml)
+ *
+ * @author Velocity71
+ */
 public class Controller {
 
-	// Defining UI elements from the app.fxml file. The '@FXML' annotation tells JavaFX to connect the FXML elements to these Java variables.
-    @FXML VBox functionVBox;
-    @FXML Label Function1;
-    @FXML Button addFunctionButton;
-    @FXML TextField enterFunctionField;
+    /** A VBox container to dynamically add and manage function labels. */
+    @FXML private VBox functionVBox;
 
-    //HashMap<Integer, Function> FunctionMap = new HashMap<Integer, Function>();
+    /** A Label displaying the first function. */
+    @FXML private Label function1;
 
+    /**
+     * A Button that triggers the addition of a new function input field to
+     * the {@link #functionVBox}.
+     */
+    @FXML private Button addFunctionButton;
 
-    /*@FXML private void initialize() {
-    	enterFunctionField.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
-     		if (!newValue) { // newValue is false when focus is lost
-       			Function1.setText(enterFunctionField.getText());
-     		}
-     	});
-
-     	addFunctionButton.setOnAction(e -> addFunctionField());
-      }*/
-
-    /*private void addFunctionField() {
-    	TextField newFunctionField = new TextField();
-     	newFunctionField.setPromptText("Enter function here");
-      	newFunctionField.prefWidthProperty().bind(functionVBox.widthProperty());
-       	newFunctionField.setMaxWidth(Double.MAX_VALUE);
-
-        functionVBox.getChildren().add(functionVBox.getChildren().indexOf(addFunctionButton), newFunctionField);
-        }*/
+    /**
+     * A TextField where the user enters a mathematical function. This input
+     * will be processed to generate the graph. Currently no functionality.
+     */
+    @FXML private TextField enterFunctionField;
 }
