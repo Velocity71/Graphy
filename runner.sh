@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # delete the target directory and it's contents. Then compile and run tests and package into a .jar file.
-mvn checkstyle:check clean package
+#mvn checkstyle:check clean package
 
 # run the code
 java --module-path /Library/Java/Extensions/lib \

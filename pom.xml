@@ -127,7 +127,7 @@
               <suppressionsLocation>suppressions.xml</suppressionsLocation>
               <encoding>UTF-8</encoding>
               <failsOnError>false</failsOnError>
-              <consoleOutput>false</consoleOutput>  <!-- This is the key change -->
+              <consoleOutput>true</consoleOutput>  <!-- This is the key change -->
               <includeTestSourceDirectory>true</includeTestSourceDirectory>
               <format>xml</format>                 <!-- Specify XML report format -->
               <outputFile>target/checkstyle-result.xml</outputFile> <!-- Output file location -->

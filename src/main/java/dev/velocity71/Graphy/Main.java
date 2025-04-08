@@ -3,7 +3,6 @@ package dev.velocity71.Graphy;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,22 +15,25 @@ import javafx.stage.Stage;
  * handles application-wide initialization, including loading Configuration
  * and setting up logging.
  * Contains the entry point for both Java(main) and JavaFX(start)
+ *
+ * @since 0.1.2
+ * @author Velocity71
+ * @version 0.2.13
  */
 public class Main extends Application {
 
     /**
      * Properties object to store configuration parameters loaded from
      * config.properties.
+     *
+     * @since 0.1.2
      */
     private static Properties config = new Properties();
 
     /**
-     * The logger for the Main class.
-     */
-    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
-
-    /**
      * Constant storing the Class Loader for this class (Main).
+     *
+     * @since 0.2.10
      */
     private static final ClassLoader MAINLOADER = Main.class.getClassLoader();
 
@@ -43,52 +45,22 @@ public class Main extends Application {
      *
      * @param args Command line arguments (unused).
      * @throws IOException If there is an error loading the config file.
+     * @since 0.1.2
+     * @author Velocity71
+     * @version 0.21
      */
-    public static final void main(final String[] args) throws IOException {
+    public static final void main(final String[] args) {
 
+        // Wrapping exceptions for better context in stack trace.
         try {
             loadConfig();
-
-            try {
-                new ClassLogger(Main.class.getSimpleName());
-                LOGGER.info("Instantiated Main class logger.");
-            } catch (IOException e) {
-                System.err.println(
-                    "Error initializing Main class logger: " + e.getMessage()
-                );
-            }
             launch(args);
 
-        /* Improved error handling: prints cause and stack trace for all
-            exceptions in the chain. */
-        } catch (IOException e) {
-           System.err.println(
-               "A fatal error occurred during application startup"
-           );
-           for (; e != null; e = e.getCause()) {
-               System.err.println(e);
-               for (StackTraceElement e: t.getStackTrace()) {
-                   System.err.println("\tat " + e);
-               }
-           }
-        }
-
-            LOGGER.info(
-                "Successfully loaded configuration file " +
-                "and initialized Main class logger."
+        } catch (final Throwable t) {
+            System.err.println(
+                "A fatal error occured during application startup"
             );
-
-        try {
-        launch(args);
-        } catch (Throwable t) {
-            /* Improved error handling: prints cause and stack trace for all
-               exceptions in the chain. */
-            for (; t != null; t = t.getCause()) {
-                System.err.println(t);
-                for (StackTraceElement e: t.getStackTrace()) {
-                    System.err.println("\tat " + e);
-                }
-            }
+            System.err.println(getFullStackTrace(t));
         }
     }
 
@@ -99,6 +71,9 @@ public class Main extends Application {
      *
      * @param appStage The primary stage for the application.
      * @throws IOException If there is an error loading the FXML file.
+     * @since 0.2.2
+     * @Author Velocity71
+     * @version 0.11
      */
     @Override public final void start(final Stage appStage) throws IOException {
 
@@ -113,20 +88,47 @@ public class Main extends Application {
     /**
      * Loads configuration parameters from the config.properties file.
      *
-     * @throws IOException If the config file is not found or cannot be read.
+     * @throws IOException If the configuration file was not found.
+     * @throws IOException If an Error ocurred when reading the file.
+     * @since 0.1.4
+     * @author Velocity71
+     * @version 0.11
      */
-    public static final void loadConfig() throws IOException {
+    private static void loadConfig() throws IOException {
         try {
-            final InputStream input =
+            final InputStream file =
                 MAINLOADER.getResourceAsStream("config.properties");
-            if (input == null) {
+            if (file == null) { // Throw IOException if file is not found.
                 throw new
-                    IOException("Unable to find config.properties resource.");
+                    IOException("Unable to find config.properties file.");
+            } else {
+                config.load(file);
             }
-            config.load(input);
         } catch (final IOException e) {
-            throw new IOException("Error loading config.properties", e);
+            // Re-throw exception for more specific context in stack trace.
+            throw new IOException("Unable to load config.properties file.", e);
         }
+    }
+
+    /**
+     * Function to ensure the full stack trace is printed to the terminal.
+     *
+     * @param t The throwable to get the full stack trace of.
+     * @return The full stack trace.
+     * @since 0.2.11
+     * @author Velocity71
+     * @version 0.2
+     */
+    private static String getFullStackTrace(final Throwable t) {
+        String stackTrace = "";
+        for (Throwable tc = t; tc != null; tc = tc.getCause()) {
+            System.err.println(tc);
+            for (final StackTraceElement e: tc.getStackTrace()) {
+                stackTrace += "\tat " + e;
+            }
+        }
+
+        return stackTrace;
     }
 
     /**
@@ -134,8 +136,11 @@ public class Main extends Application {
      *
      * @return config A Properties object that store configuration parameters
      *  loaded from config.properties.
+     * @since 0.2.10
+     * @author Velocity71
+     * @version 0.3
      */
-    public static final Properties getConfig() {
+    protected static final Properties getConfig() {
         return config;
     }
 }
