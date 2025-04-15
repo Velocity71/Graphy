@@ -10,6 +10,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import dev.velocity71.Graphy.Parsing.*;
+
 /**
  * Main class for the Graphy application. Launches the JavaFX application and
  * handles application-wide initialization, including loading Configuration
@@ -18,7 +20,7 @@ import javafx.stage.Stage;
  *
  * @since 0.1.2
  * @author Velocity71
- * @version 0.2.13
+ * @version 0.2.14
  */
 public class Main extends Application {
 
@@ -47,14 +49,16 @@ public class Main extends Application {
      * @throws IOException If there is an error loading the config file.
      * @since 0.1.2
      * @author Velocity71
-     * @version 0.21
+     * @version 0.22
      */
     public static final void main(final String[] args) {
 
         // Wrapping exceptions for better context in stack trace.
         try {
-            loadConfig();
-            launch(args);
+            //loadConfig();
+            //launch(args);
+
+            RpnEvaluator.solve(ShuntingYardConverter.convert(Tokenizer.tokenize("2*abs(-1*pow(2,2))")));
 
         } catch (final Throwable t) {
             System.err.println(
@@ -94,6 +98,7 @@ public class Main extends Application {
      * @author Velocity71
      * @version 0.11
      */
+    @SuppressWarnings("unused")
     private static void loadConfig() throws IOException {
         try {
             final InputStream file =
@@ -117,14 +122,14 @@ public class Main extends Application {
      * @return The full stack trace.
      * @since 0.2.11
      * @author Velocity71
-     * @version 0.2
+     * @version 0.3
      */
     private static String getFullStackTrace(final Throwable t) {
         String stackTrace = "";
         for (Throwable tc = t; tc != null; tc = tc.getCause()) {
             System.err.println(tc);
             for (final StackTraceElement e: tc.getStackTrace()) {
-                stackTrace += "\tat " + e;
+                stackTrace += "\n\tat " + e;
             }
         }
 
