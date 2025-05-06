@@ -2,6 +2,7 @@ package dev.velocity71.Graphy.Parsing;
 
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.logging.Logger;
 
 /**
  * Class to solve expressions formatted in Reverse Polish Notation.
