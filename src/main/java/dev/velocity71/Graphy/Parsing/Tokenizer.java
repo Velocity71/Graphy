@@ -1,168 +1,250 @@
 package dev.velocity71.Graphy.Parsing;
 
-import java.util.Set;
+import dev.velocity71.Graphy.InvokeStackTraceFormattedString;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * Breaks down the mathematical expression into a sequence of tokens.
  *
- * @since 0.2.14
+ * @since 0.1
  * @author Velocity71
- * @version 0.1
+ * @version 0.2
  */
-public final class Tokenizer {
+final class Tokenizer {
 
-	/**
-	 * Set of all known operators to be used in expressions.
-	 *
-	 * @since 0.2.14
-	 */
-	private static final Set<Character> KNOWN_OPERATORS = Set.of(
-		'+', '-', '*', '/'
-	);
+    /**
+     * The logger for this class.
+     * @since 0.2
+     */
+    private static final Logger LOGGER = Logger.getLogger(
+        Tokenizer.class.getName()
+    );
 
-	/**
-	 * Set of all known unary functions to be used in expressions.
-	 *
-	 * @since 0.2.14
-	 */
-	private static final Set<String> KNOWN_UNARY_FUNCTIONS = Set.of(
-	    "sin", "cos", "tan", "sec", "csc", "cot", "asin", "acos", "atan",
-		"log", "ln", "sqrt", "abs"
-	);
+    /**
+     * Set of all known operators to be used in expressions.
+     *
+     * @since 0.1
+     */
+    private static final Set<Character> KNOWN_OPERATORS = Set.of(
+        '+',
+        '-',
+        '*',
+        '/'
+    );
 
-	/**
-	 * Set of all known binary functions to be used in expressions.
-	 *
-	 * @since 0.2.14
-	 */
-	private static final Set<String> KNOWN_BINARY_FUNCTIONS = Set.of(
-		"pow", "xrt", "logb"
-	);
+    /**
+     * Set of all known unary functions to be used in expressions.
+     *
+     * @since 0.1
+     */
+    private static final Set<String> KNOWN_UNARY_FUNCTIONS = Set.of(
+        "sin",
+        "cos",
+        "tan",
+        "sec",
+        "csc",
+        "cot",
+        "asin",
+        "acos",
+        "atan",
+        "log",
+        "ln",
+        "sqrt",
+        "abs"
+    );
 
-	/**
-	 * Tokenizes the input mathematical expression.
-	 *
-	 * @param expression The mathematical expression string.
-	 * @return An list of Tokens representing the expression.
-	 * @throws IllegalArgumentException If the expression contains invalid
-	 * characters or structure.
-	 * @version 0.1
-	 * @author Velocity71
-	 * @since 0.2.14
-	 */
-	public static ArrayList<Token> tokenize(String expression)
-	  throws IllegalArgumentException {
-		ArrayList<Token> tokens = new ArrayList<>();
-		char[] chars = expression.toCharArray();
-		String numStr = "";
+    /**
+     * Set of all known binary functions to be used in expressions.
+     *
+     * @since 0.1
+     */
+    private static final Set<String> KNOWN_BINARY_FUNCTIONS = Set.of(
+        "pow",
+        "xrt",
+        "logb"
+    );
 
-		System.out.println("----TOKENIZER FUNCTION----");
-		System.out.println("Function: " + expression);
+    /**
+     * Tokenizes the input mathematical expression.
+     *
+     * @param expression The mathematical expression string.
+     * @return A list of Tokens representing the expression.
+     * @throws IllegalArgumentException If the expression contains invalid
+     * characters or structure.
+     * @version 0.2
+     * @author Velocity71
+     * @since 0.1
+     */
+    static ArrayList<Token> tokenize(final String expression)
+        throws IllegalArgumentException {
+        LOGGER.finest(new InvokeStackTraceFormattedString().toString());
 
-		for (int pos = 0; pos < chars.length; pos++) {
-			char currentChar = chars[pos];
+        LOGGER.info("Tokenizing expression: '" + expression + "'.");
 
-			System.out.println();
-			System.out.println("List of tokens: " + tokens);
-			System.out.println("Current selected character: '" + currentChar + "'");
+        // List of tokens to return.
+        final ArrayList<Token> tokens = new ArrayList<>();
 
-			// Skip whitespace.
-			if (Character.isWhitespace(currentChar)) {
-				System.out.println("Character identified as whitespace.");
-				continue;
-			}
+        final char[] chars = expression.toCharArray();
+        String numStr = "";
 
-			Token currentToken;
+        LOGGER.finer("----TOKENIZER FUNCTION----");
 
-			/* If the character is a number or a decimal with a number after it, build
-			   a string that includes the number(s) (and decimal). */
-			if (
-				Character.isDigit(currentChar) ||
-				(currentChar == '.' &&
-			    (pos + 1 < chars.length && Character.isDigit(chars[pos + 1])))
-			) {
-				System.out.println("Character identified as a digit or '.'");
-				boolean hasDecimal = false;
+        // For each character in the expression:
+        for (int pos = 0; pos < chars.length; pos++) {
+            final char currentChar = chars[pos];
 
-				/* While the character is a digit or a period (and there has been no
-				   previous period) append it to the new string being created. */
-				while (
-					pos < chars.length && (Character.isDigit(chars[pos]) ||
-					(chars[pos] == '.' && !hasDecimal))
-				) {
-					System.out.println("Inside integer-creation sub-loop");
-					System.out.println(chars[pos] + " identified as a digit or decimal");
-					// Show that a decimal has been found.
-					if (chars[pos] == '.') hasDecimal = true;
-					numStr += chars[pos];
-					pos++;
-				}
-				pos--;
-			// Once number is finished being created construct a token from it.
-			System.out.println("Finished number: " + numStr);
-			currentToken = new Token(TokenType.NUMBER, numStr);
-			numStr = "";
+            LOGGER.finer("Expression: '" + expression + "'.");
+            LOGGER.finer("Current selected character: '" + currentChar + "'.");
+            LOGGER.finer("List of tokens: " + tokens + ".");
 
-			/* If the character is a letter try to find a function or variable from it.
-			   If invalid throw an error. */
-			} else if (Character.isLetter(currentChar)) {
-				System.out.println("Character identified as a letter.");
-				String letterStr = "";
+            // Skip whitespace.
+            if (Character.isWhitespace(currentChar)) {
+                LOGGER.finer("Character identified as whitespace.");
+                continue;
+            }
 
-				while (pos < chars.length && Character.isLetter(chars[pos])) {
-					System.out.println("Inside string creation sub-loop");
-					System.out.println(chars[pos] + " identified as a letter");
-					letterStr += chars[pos];
-					pos++;
-				}
-				pos--;
+            Token currentToken;
 
-				if (KNOWN_UNARY_FUNCTIONS.contains(letterStr)) {
-					System.out.println("Set of letters identified as a unary function");
-					currentToken = new Token(TokenType.UNARY_FUNCTION, letterStr);
-				} else if (KNOWN_BINARY_FUNCTIONS.contains(letterStr)) {
-					System.out.println("Set of letters identified as a binary function");
-					currentToken = new Token(TokenType.BINARY_FUNCTION, letterStr);
-				} else {
-					throw new IllegalArgumentException("Unknown sequence: " + letterStr);
-				}
-			letterStr = "";
+            /*
+             * If the character is a number or a decimal with a number after it,
+             * build a string that includes the number(s) (and decimal).
+             */
+            if (
+                Character.isDigit(currentChar) ||
+                (currentChar == '.' &&
+                    (pos + 1 < chars.length &&
+                        Character.isDigit(chars[pos + 1])))
+            ) {
+                boolean hasDecimal = false;
 
-			// If the character is an operator.
-			} else if (KNOWN_OPERATORS.contains(currentChar)) {
-				System.out.println("Character identified as an operator");
-				if (currentChar == '-') {
-					if (
-						tokens.isEmpty() ||
-					    tokens.get(tokens.size()-1).getType() == TokenType.OPERATOR ||
-						tokens.get(tokens.size()-1).getValue().equals("(") ||
-						tokens.get(tokens.size()-1).getType() == TokenType.COMMA
-					) {
-						System.out.println("Appending negative symbol to letterStr");
+                /*
+                 * While the character is a digit or a period (and there has
+                 * been no previous period) append it to the new string being
+                 * created.
+                 */
+                while (
+                    pos < chars.length &&
+                    (Character.isDigit(chars[pos]) ||
+                        (chars[pos] == '.' && !hasDecimal))
+                ) {
+                    LOGGER.finest("Inside number creation sub-loop.");
+                    LOGGER.finest(
+                        "Character: '" +
+                        chars[pos] +
+                        "' identified as a digit or decimal."
+                    );
+
+                    // Show that a decimal has been found.
+                    if (chars[pos] == '.') {
+                        LOGGER.finest("Decimal Found.");
+                        hasDecimal = true;
+                    }
+                    numStr += chars[pos];
+                    LOGGER.finest("Updated number: '" + numStr + "'.");
+                    pos++;
+                }
+                pos--;
+                // Once number is finished being created construct a token from it.
+                LOGGER.finest("Completed number: '" + numStr + "'.");
+                currentToken = new Token(TokenType.NUMBER, numStr);
+                numStr = "";
+                /*
+                 * If the character is a letter try to find a function or variable
+                 * from it. If invalid throw an error.
+                 */
+            } else if (Character.isLetter(currentChar)) {
+                LOGGER.finer("Character identified as a letter.");
+                String letterStr = "";
+
+                while (pos < chars.length && Character.isLetter(chars[pos])) {
+                    LOGGER.finest("Inside string creation sub-loop");
+                    LOGGER.finest(
+                        "Character: '" +
+                        chars[pos] +
+                        "' identified as a letter."
+                    );
+                    letterStr += chars[pos];
+                    LOGGER.finest("Updated string: '" + letterStr + "'.");
+                    pos++;
+                }
+                pos--;
+
+                if (KNOWN_UNARY_FUNCTIONS.contains(letterStr)) {
+                    LOGGER.finer(
+                        "Identified unary function '" + letterStr + "'."
+                    );
+                    currentToken = new Token(
+                        TokenType.UNARY_FUNCTION,
+                        letterStr
+                    );
+                } else if (KNOWN_BINARY_FUNCTIONS.contains(letterStr)) {
+                    LOGGER.finer(
+                        "Identified binary function '" + letterStr + "'."
+                    );
+                    currentToken = new Token(
+                        TokenType.BINARY_FUNCTION,
+                        letterStr
+                    );
+                } else {
+                    LOGGER.severe(
+                        "Unknown character sequence: '" + letterStr + "'."
+                    );
+                    throw new IllegalArgumentException(
+                        "Unknown character sequence: '" + letterStr + "'."
+                    );
+                }
+                letterStr = "";
+                // If the character is an operator.
+            } else if (KNOWN_OPERATORS.contains(currentChar)) {
+                LOGGER.finer("Character identified as an operator.");
+                if (currentChar == '-') {
+                    if (
+                        tokens.isEmpty() ||
+                        tokens.get(tokens.size() - 1).getType() ==
+                        TokenType.OPERATOR ||
+                        tokens.get(tokens.size() - 1).getValue().equals("(") ||
+                        tokens.get(tokens.size() - 1).getType() ==
+                        TokenType.COMMA
+                    ) {
+                        LOGGER.finer("Found a negative symbol.");
+                        LOGGER.finest(
+                            "Appending negative symbol to the number string."
+                        );
                         numStr = "-";
                         continue;
-					}
-				}
-				currentToken = new Token(TokenType.OPERATOR, String.valueOf(currentChar));
+                    }
+                }
+                currentToken = new Token(
+                    TokenType.OPERATOR,
+                    String.valueOf(currentChar)
+                );
+                // If the character is a parenthesis.
+            } else if (currentChar == '(' || currentChar == ')') {
+                LOGGER.finer("Character identified as a parenthesis.");
+                currentToken = new Token(
+                    TokenType.PARENTHESIS,
+                    String.valueOf(currentChar)
+                );
+            } else if (currentChar == ',') {
+                LOGGER.finer("Character identified as a comma.");
+                currentToken = new Token(
+                    TokenType.COMMA,
+                    String.valueOf(currentChar)
+                );
+                // Throw error if nothing matches.
+            } else {
+                LOGGER.severe("Unknown character: '" + currentChar + "'.");
+                throw new IllegalArgumentException(
+                    "Unknown character in expression: '" + currentChar + "'."
+                );
+            }
 
-			// If the character is a parenthesis.
-			} else if (currentChar == '(' || currentChar == ')') {
-				System.out.println("Character identified as a parenthesis.");
-				currentToken = new Token(TokenType.PARENTHESIS, String.valueOf(currentChar));
+            tokens.add(currentToken);
+        }
 
-			} else if (currentChar == ',') {
-				currentToken = new Token(TokenType.COMMA, String.valueOf(currentChar));
-
-			// Throw error if nothing matches.
-			} else {
-				throw new IllegalArgumentException("Invalid character in expression: " + currentChar);
-			}
-
-			tokens.add(currentToken);
-		}
-
-		System.out.println("Finished tokens: " + tokens);
-		return tokens;
-	}
+        LOGGER.info("Finished tokenized expression: " + tokens + ".");
+        return tokens;
+    }
 }
