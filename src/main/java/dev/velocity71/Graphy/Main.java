@@ -1,16 +1,15 @@
 package dev.velocity71.Graphy;
 
+import dev.velocity71.Graphy.Parsing.FunctionParser;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Properties;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import dev.velocity71.Graphy.Parsing.FunctionParser;
 
 /**
  * Main class for the Graphy application. Launches the JavaFX application and
@@ -52,31 +51,50 @@ public class Main extends Application {
      * @version 0.23
      */
     public static final void main(final String[] args) {
-
         // Wrapping exceptions for better context in stack trace.
         try {
-            //loadConfig();
-            //launch(args);
+            loadConfig();
+            launch(args);
 
-            String expression = "2*abs(-1*pow(2,2))";
-            System.out.print(
-                "The answer to the expression '"
-                + expression
-                + "' is '"
+            String function = "2*ln(x)";
+            double[] input = {
+                -10,
+                -9,
+                -8,
+                -6,
+                -5,
+                -4,
+                -3,
+                -2,
+                -1,
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+            };
+            HashMap<Double, String> result = FunctionParser.getFunctionTable(
+                function,
+                "x",
+                input
             );
-            System.out.print(FunctionParser.evalString(expression));
-            System.out.println("'.");
 
+            for (double i : input) {
+                System.out.println("f(" + i + ") = " + result.get(i));
+            }
         } catch (final Throwable t) {
             System.err.println(
                 "A fatal error occured during application startup"
             );
             System.err.println(getFullStackTrace(t));
         }
-
-        System.exit(0);
     }
-
 
     /**
      * JavaFX start method. Loads the FXML file and sets up the application
@@ -88,8 +106,8 @@ public class Main extends Application {
      * @Author Velocity71
      * @version 0.11
      */
-    @Override public final void start(final Stage appStage) throws IOException {
-
+    @Override
+    public final void start(final Stage appStage) throws IOException {
         final String fxmlPath = config.getProperty("app.fxml.path");
         final Parent app = FXMLLoader.load(MAINLOADER.getResource(fxmlPath));
 
@@ -107,14 +125,13 @@ public class Main extends Application {
      * @author Velocity71
      * @version 0.11
      */
-    @SuppressWarnings("unused")
     private static void loadConfig() throws IOException {
         try {
-            final InputStream file =
-                MAINLOADER.getResourceAsStream("config.properties");
+            final InputStream file = MAINLOADER.getResourceAsStream(
+                "config.properties"
+            );
             if (file == null) { // Throw IOException if file is not found.
-                throw new
-                    IOException("Unable to find config.properties file.");
+                throw new IOException("Unable to find config.properties file.");
             } else {
                 config.load(file);
             }
@@ -137,7 +154,7 @@ public class Main extends Application {
         String stackTrace = "";
         for (Throwable tc = t; tc != null; tc = tc.getCause()) {
             System.err.println(tc);
-            for (final StackTraceElement e: tc.getStackTrace()) {
+            for (final StackTraceElement e : tc.getStackTrace()) {
                 stackTrace += "\n\tat " + e;
             }
         }

@@ -1,6 +1,8 @@
 package dev.velocity71.Graphy;
 
-
+import dev.velocity71.Graphy.Parsing.FunctionParser;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,14 +24,16 @@ public class Controller {
      *
      * @since 0.6
      */
-    @FXML private VBox functionVBox;
+    @FXML
+    private VBox functionVBox;
 
     /**
      * A Label displaying the first function.
      *
      * @since 0.1
      */
-    @FXML private Label function1;
+    @FXML
+    private Label function1;
 
     /**
      * A Button that triggers the addition of a new function input field to
@@ -37,7 +41,8 @@ public class Controller {
      *
      * @since 0.1
      */
-    @FXML private Button addFunctionButton;
+    @FXML
+    private Button addFunctionButton;
 
     /**
      * A TextField where the user enters a mathematical function. This input
@@ -45,5 +50,25 @@ public class Controller {
      *
      * @since 0.1
      */
-    @FXML private TextField enterFunctionField;
+    @FXML
+    private TextField enterFunctionField;
+
+    public void initialize() {
+        enterFunctionField
+            .textProperty()
+            .addListener(
+                new ChangeListener<String>() {
+                    @Override
+                    public void changed(
+                        ObservableValue<? extends String> observable,
+                        String oldValue,
+                        String newValue
+                    ) {
+                        function1.setText(
+                            FunctionParser.evalExpression(newValue)
+                        );
+                    }
+                }
+            );
+    }
 }
