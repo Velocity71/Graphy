@@ -4,10 +4,13 @@ import dev.velocity71.Graphy.Parsing.FunctionParser;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 /**
  * Controller class for the Graphy application.  Handles user interactions
@@ -15,7 +18,7 @@ import javafx.scene.layout.VBox;
  *
  * @since 0.2.4
  * @author Velocity71
- * @version 0.9
+ * @version 0.11
  */
 public class Controller {
 
@@ -46,14 +49,31 @@ public class Controller {
 
     /**
      * A TextField where the user enters a mathematical function. This input
-     * will be processed to generate the graph. Currently no functionality.
+     * will be processed to generate the graph.
      *
      * @since 0.1
      */
     @FXML
     private TextField enterFunctionField;
 
+    /**
+     * A Canvas used to write functions in graphical form to.
+     *
+     * @since 0.11
+     */
+    @FXML
+    private Canvas plane;
+
+    /**
+     * Initialize handlers for the FXML objects.
+     *
+     * @since 0.10
+     * @author Velocity71
+     * @version 0.2
+     */
     public void initialize() {
+        drawAxes();
+
         enterFunctionField
             .textProperty()
             .addListener(
@@ -70,5 +90,35 @@ public class Controller {
                     }
                 }
             );
+    }
+
+    /**
+     * Draw the axes for the Cartesian coordinate system (X=0 and Y=0)
+     *
+     * @since 0.11
+     * @author Velocity71
+     * @version 0.1
+     */
+    private void drawAxes() {
+        GraphicsContext gc = plane.getGraphicsContext2D();
+        double width = plane.getWidth();
+        double height = plane.getHeight();
+
+        // Clear the plane
+        gc.clearRect(0, 0, width, height);
+
+        // Set line color
+        gc.setStroke(Color.GRAY);
+        gc.setLineWidth(1.0);
+
+        // Calculate the Center
+        double midX = width / 2;
+        double midY = height / 2;
+
+        // Draw X-axis
+        gc.strokeLine(midX, 0, midX, height);
+
+        // Draw Y-axis
+        gc.strokeLine(0, midY, width, midY);
     }
 }
