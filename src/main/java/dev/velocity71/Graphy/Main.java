@@ -19,7 +19,7 @@ import javafx.stage.Stage;
  *
  * @since 0.1.2
  * @author Velocity71
- * @version 0.2.15
+ * @version 0.2.16
  */
 public class Main extends Application {
 
@@ -48,7 +48,7 @@ public class Main extends Application {
      * @throws IOException If there is an error loading the config file.
      * @since 0.1.2
      * @author Velocity71
-     * @version 0.23
+     * @version 0.24
      */
     public static final void main(final String[] args) {
         // Wrapping exceptions for better context in stack trace.
